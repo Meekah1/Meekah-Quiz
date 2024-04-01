@@ -8,6 +8,8 @@ import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinshedScreen from "./FinshedScreen";
+import Footer from "./Footer";
+import Timer from "./Timer";
 
 const initialState = {
   questions: [],
@@ -18,6 +20,7 @@ const initialState = {
   answer: null,
   points: 0,
   highscore: 0,
+  secondsRemaining: 10,
 };
 
 function reducer(state, action) {
@@ -54,21 +57,31 @@ function reducer(state, action) {
         index: state.index + 1,
         answer: null,
       };
-    case "finish":
+    case "finished":
       return {
         ...state,
         status: "finished",
         highscore:
           state.points > state.highscore ? state.points : state.highscore,
       };
+    case "restartQuiz":
+      return {
+        ...initialState,
+        questions: state.questions,
+        status: "ready",
+      };
+    case "tick":
+      return { ...state, secondsRemaining: state.secondsRemaining - 1 };
     default:
       throw new Error("action Unknown");
   }
 }
 
 export default function App() {
-  const [{ questions, status, index, answer, points, highscore }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { questions, status, index, answer, points, highscore, secondsRemaining },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   const numQuestion = questions.length;
   const maxPossiblePoints = questions.reduce(
@@ -108,19 +121,23 @@ export default function App() {
               dispatch={dispatch}
               answer={answer}
             />
-            <NextButton
-              dispatch={dispatch}
-              answer={answer}
-              numQuestion={numQuestion}
-              index={index}
-            />
+            <Footer>
+              <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
+              <NextButton
+                dispatch={dispatch}
+                answer={answer}
+                numQuestion={numQuestion}
+                index={index}
+              />
+            </Footer>
           </>
         )}
-        {status === "Finised" && (
+        {status === "finished" && (
           <FinshedScreen
             points={points}
             maxPosiblePoints={maxPossiblePoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
