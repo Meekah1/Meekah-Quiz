@@ -89,6 +89,11 @@ h4 {
   align-items: center;
 }
 
+.startStyle {
+  display: flex;
+  gap: 10px;
+}
+
 .progress {
   margin-bottom: 4rem;
   display: grid;
@@ -256,4 +261,35 @@ progress {
 .counter * {
   font-size: inherit;
   padding: 0.8rem;
+}
+
+.slide-in-text {
+  animation: slideIn 1s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes colorChange {
+  from {
+    color: rgb(59, 59, 195);
+  }
+  to {
+    color: rgb(31, 153, 35);
+  }
 }
