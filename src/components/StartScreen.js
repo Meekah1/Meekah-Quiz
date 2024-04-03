@@ -3,10 +3,6 @@ function StartScreen({ num, dispatch }) {
     animation: "slideIn 1s ease forwards",
   };
 
-  // const fadeInStyles = {
-  //   animation: "fadeIn 1s ease forwards",
-  // };
-
   const bounceText = {
     animation: "bounce 1s infinite alternate",
   };
